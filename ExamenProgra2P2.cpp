@@ -1,76 +1,94 @@
+//Critter
 #include <iostream>
-#include <array>
-#include <vector>
-#include <algorithm>
-#include <cstdlib>
-#include <string>
 
 using namespace std;
 
+class Critter
+{
+public:
+    Critter(int hunger = 0, int boredom = 0);
+    void Talk();
+    void Eat(int food = 4);
+    void Play(int fun = 4);
+
+private:
+    int m_Hunger;
+    int m_Boredom;
+    void PassTime(int time = 1);
+};
+
+Critter::Critter(int hunger, int boredom) :
+    m_Hunger(hunger),
+    m_Boredom(boredom)
+{}
+
+
+void Critter::PassTime(int time)
+{
+    m_Hunger += time;
+    m_Boredom += time;
+}
+
+void Critter::Talk()
+{
+    /*Implementar código
+    */
+
+    PassTime();
+}
+
+void Critter::Eat(int food)
+{
+    cout << "\nBrrupp. \n";
+    m_Hunger -= food;
+    if (m_Hunger < 0)
+    {
+        m_Hunger = 0;
+    }
+    PassTime();
+}
+
+void Critter::Play(int fun)
+{
+    cout << "\nWheee!\n";
+    m_Boredom -= fun;
+    if (m_Boredom < 0)
+    {
+        m_Boredom = 0;
+    }
+    PassTime();
+}
+
 int main()
 {
-
-    array<string, 4> articulos = {
-        "Espacio 1",
-        "Espacio 2",
-        "Espacio 3",
-        "Espacio 4",
-    };
-
-    array<double, 4> costos = {
-        25, 1, 1, 5};
- 
-    array<int, 4> cantidades = {
-        150, 100, 2, 10};
-
-
-    string eleccion = "";
-
-    while (eleccion != "2")
+    Critter crit;
+    crit.Talk();
+    int choice;
+    do
     {
-
-        cout << "____________" << endl;
-        for (int i = 0; i < 4; i++)
+        cout << "\n Mascotas Virtuales\n\n";
+        cout << "0 - Salir.\n";
+        cout << "1 - Escucha a tu mascota.\n";
+        cout << "2 - Alimentar.\n";
+        cout << "3 - Jugar con tu mascota.\n";
+        cout << "Elige una opción: ";
+        cin >> choice;
+        switch (choice)
         {
-            cout << "Inventario: " << i + 1 << endl;
-            cout << "Artículo: " << articulos[i] << endl;
-            cout << "Costo: " << costos[i] << endl;
-            cout << "Cantidad: " << cantidades[i] << endl;
-            cout << "____________" << endl;
+        case 0:
+            cout << "Vuelve pronto!.\n";
+            break;
+        case 1:
+            crit.Talk();
+            break;
+        case 2:
+            crit.Eat();
+            break;
+        case 3:
+            crit.Play();
+            break;
+        default:
+            cout << "\n Tu elección es inválida. \n";
         }
-        cout << "1. Espacio de inventario\n2. Salir\nSeleccione: ";
-        cin >> eleccion;
-        if (eleccion == "1")
-        {
-            int numeroArticulo;
-            cout << "Ingrese el número de espacio de inventario que desea adquirir: ";
-            cin >> numeroArticulo;
-            int indice = numeroArticulo - 1;
-            if (indice >= 0 && indice <= 3)
-            {
-                int cantidad;
-                cout << "Ingrese la cantidad de compra: ";
-                cin >> cantidad;
-                if (cantidad > cantidades[indice])
-                {
-                    cout << "No hay suficiente existencia" << endl;
-                }
-                else
-                {
-                    double costo = costos[indice];
-                    double total = costo * cantidad;
-                    cout << "========================================" << endl;
-                    cout << "Usted ha Adquirido su Inventario Correctamente" << articulos[indice] << " X " << cantidad << endl;
-                    cout << "Total: " << total << endl;
-                    cout << "GRACIAS POR SU ELECCION" << endl;
-                    cout << "========================================" << endl;
-                    cantidades[indice] = cantidades[indice] - cantidad;
-                }
-            }
-            else
-            {
-                cout << "Número de artículo " << numeroArticulo << " inválido" << endl;
-            }
-        }
-    }
+    } while (choice != 0);
 }
